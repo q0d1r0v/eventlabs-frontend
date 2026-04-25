@@ -1,4 +1,4 @@
-# Logs
+# Loglar
 logs
 *.log
 npm-debug.log*
@@ -7,14 +7,42 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Bog'liqliklar
 node_modules
+.pnp
+.pnp.js
+jspm_packages/
+
+# Build natijalari
 dist
 dist-ssr
-*.local
+build
+.output
+.nuxt
+.next
 
-# Editor directories and files
+# Vite cache
+.vite
+node_modules/.vite/
+node_modules/.tmp/
+
+# Lock fayllar (loyiha bittasini tanlasin)
+# package-lock.json
+# pnpm-lock.yaml
+# bun.lockb
+
+# Environment va sirlar
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE va muharrirlar
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json.example
 .idea
 .DS_Store
 *.suo
@@ -22,3 +50,33 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*.swo
+
+# Test va coverage
+coverage
+.nyc_output
+.cache
+*.tsbuildinfo
+.eslintcache
+
+# OS fayllar
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Vaqtinchalik fayllar
+*.bak
+*.tmp
+*.temp
+.tmp
+.temp
+
+# Production secrets
+*.pem
+*.key
+*.crt
+*.cert
+
+# Local-only files
+*.local
