@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { RouteLocationRaw } from 'vue-router'
 import type { ButtonSize, ButtonVariant } from '@/types'
 
 const props = withDefaults(
@@ -7,7 +8,7 @@ const props = withDefaults(
     variant?: ButtonVariant
     size?: ButtonSize
     href?: string
-    to?: string
+    to?: RouteLocationRaw
     type?: 'button' | 'submit' | 'reset'
     disabled?: boolean
     fullWidth?: boolean
@@ -143,6 +144,17 @@ const classes = computed(() => [
 .btn--accent:hover {
   background: var(--color-brand-deep);
   color: #ffffff;
+  opacity: 1;
+}
+
+.btn--danger {
+  background: var(--color-error);
+  color: #ffffff;
+  box-shadow: var(--shadow-button);
+}
+
+.btn--danger:hover {
+  background: #b94545;
   opacity: 1;
 }
 

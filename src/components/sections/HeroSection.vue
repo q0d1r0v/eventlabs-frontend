@@ -1,8 +1,25 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import BaseContainer from '@/components/ui/BaseContainer.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseBadge from '@/components/ui/BaseBadge.vue'
 import IconBase from '@/components/ui/IconBase.vue'
+import { useAuthStore } from '@/stores/auth'
+
+const router = useRouter()
+const auth = useAuthStore()
+
+const onPrimary = () => {
+  if (auth.isAuthenticated) {
+    router.push({ name: 'dashboard' })
+  } else {
+    router.push({ name: 'register' })
+  }
+}
+
+const onSecondary = () => {
+  router.push({ name: 'conferences' })
+}
 </script>
 
 <template>
@@ -11,23 +28,24 @@ import IconBase from '@/components/ui/IconBase.vue'
       <div class="hero__content">
         <BaseBadge tone="brand" mono>
           <span class="hero__pulse" aria-hidden="true" />
-          Yangi · Real-time Q&amp;A
+          Real-time Q&amp;A · QR-chipta · Sertifikat
         </BaseBadge>
 
         <h1 class="hero__title">
-          Konferensiyalarni boshqarish<br />
-          <span class="hero__title-accent">qog'oz davridan tashqarida</span>
+          Konferensiyani boshlashdan<br />
+          <span class="hero__title-accent">sertifikatgacha — bir joyda</span>
         </h1>
 
         <p class="hero__subtitle">
-          EventLab — ilmiy konferensiyalar, seminar va uchrashuvlarni
-          rejalashtirish, qatnashchilarni ro'yxatga olish va real vaqt rejimida
-          muloqotni ta'minlash uchun yagona platforma.
+          Konferensiya yarating, sessiyalar tuzing va ma'ruzachilar tayinlang.
+          Qatnashchilar bir bosishda yoziladi va QR-chipta oladi. Tadbir kuni
+          jonli savol-javob, materiallar va bildirishnomalar — hammasi
+          real vaqtda ishlaydi.
         </p>
 
         <div class="hero__actions">
-          <BaseButton variant="primary" size="lg">
-            Bepul boshlash
+          <BaseButton variant="primary" size="lg" @click="onPrimary">
+            {{ auth.isAuthenticated ? 'Boshqaruv paneli' : 'Bepul boshlash' }}
             <template #trailing>
               <IconBase :size="16">
                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -35,8 +53,8 @@ import IconBase from '@/components/ui/IconBase.vue'
               </IconBase>
             </template>
           </BaseButton>
-          <BaseButton variant="secondary" size="lg">
-            Demoni ko'rish
+          <BaseButton variant="secondary" size="lg" @click="onSecondary">
+            Konferensiyalarni ko'rish
           </BaseButton>
         </div>
 
@@ -45,13 +63,19 @@ import IconBase from '@/components/ui/IconBase.vue'
             <IconBase :size="16">
               <polyline points="20 6 9 17 4 12" />
             </IconBase>
-            Bepul rejaga karta talab qilinmaydi
+            QR-chipta avtomatik PDF
           </div>
           <div class="hero__meta-item">
             <IconBase :size="16">
               <polyline points="20 6 9 17 4 12" />
             </IconBase>
-            5 daqiqada o'rnatish
+            Sertifikat avtomatik
+          </div>
+          <div class="hero__meta-item">
+            <IconBase :size="16">
+              <polyline points="20 6 9 17 4 12" />
+            </IconBase>
+            Real-time yangilanish
           </div>
         </div>
       </div>
@@ -65,29 +89,29 @@ import IconBase from '@/components/ui/IconBase.vue'
           </div>
           <div class="hero__preview-body">
             <div class="hero__preview-row hero__preview-row--big">
-              <span>Konferensiya namunasi</span>
+              <span>Konferensiya jadvali</span>
               <span class="hero__preview-pill hero__preview-pill--green">JONLI</span>
             </div>
             <div class="hero__preview-row">
-              <span>Ochilish ma'ruzasi · 09:00</span>
-              <span class="hero__preview-mono">qatnashish</span>
+              <span>Ochilish ma'ruzasi</span>
+              <span class="hero__preview-mono">savol-javob</span>
             </div>
             <div class="hero__preview-row">
-              <span>Asosiy sessiya · 10:30</span>
-              <span class="hero__preview-mono">savol berish</span>
+              <span>Asosiy sessiya</span>
+              <span class="hero__preview-mono">materiallar</span>
             </div>
             <div class="hero__preview-row">
-              <span>Tanaffus · 12:30</span>
-              <span class="hero__preview-mono">jadvalda</span>
+              <span>Yakuniy panel</span>
+              <span class="hero__preview-mono">sertifikat</span>
             </div>
           </div>
         </div>
 
         <div class="hero__preview-card hero__preview-card--sm">
           <div class="hero__preview-stat">
-            <span class="hero__preview-stat-label">Live Q&amp;A</span>
+            <span class="hero__preview-stat-label">Real-time Q&amp;A</span>
             <span class="hero__preview-stat-value">●</span>
-            <span class="hero__preview-stat-trend">Savollar real vaqtda</span>
+            <span class="hero__preview-stat-trend">Socket asosida bir zumda</span>
           </div>
         </div>
       </div>

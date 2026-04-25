@@ -7,30 +7,46 @@ import IconBase from '@/components/ui/IconBase.vue'
 const rows = [
   {
     label: "Qatnashchilar ro'yxati",
-    before: "Excel jadvalda qo'lda kiritiladi, dublikatlar va xato yozuvlar yig'iladi",
-    after: "Onlayn forma orqali avtomatik, har kim noyob QR-chipta oladi",
+    before:
+      "Excel jadvalda qo'lda, dublikatlar va xato yozuvlar yig'iladi",
+    after:
+      "Onlayn forma — har kim noyob ticketCode oladi va PDF chiptasi tushadi",
   },
   {
-    label: 'Dasturning yangilanishi',
-    before: "Email yoki Telegramga qayta-qayta yuboriladi, hamma o'qimaydi",
-    after: "Sahifa o'zi yangilanadi, hammaga bir zumda push-bildirishnoma keladi",
+    label: "Tadbirning yangilanishi",
+    before:
+      "Qayta-qayta email yuborish, hamma o'qimaydi",
+    after:
+      "Sana yoki joy o'zgarsa, bekor qilinsa — yozilganlarga real-time bildirishnoma",
   },
   {
-    label: "Savol-javob bo'limi",
-    before: "Mikrofonda navbat, qog'oz kartochkalar, eng zo'r savollar yo'qoladi",
-    after: "Qatnashchilar yozadi va yoqtiradi — eng muhimlari yuqorida turadi",
+    label: "Savol-javob",
+    before:
+      "Mikrofonda navbat, qog'oz kartochkalar, eng yaxshi savollar yo'qoladi",
+    after:
+      "Real vaqtli Q&A: yoqtirilganlari yuqorida, javob ham hammaga ko'rinadi",
   },
   {
-    label: "Sertifikat va hisobot",
-    before: "Wordda terib, har biriga ism qo'yiladi, e'tiborsiz xato qiziq fakt",
-    after: "Tadbir tugagach avtomatik PDF yuboriladi, kod bilan tekshirsa bo'ladi",
+    label: "Materiallar",
+    before:
+      "Speaker o'z faylini email orqali yuboradi, qatnashchi keyin so'raydi",
+    after:
+      "Speaker sessiyaga PDF/PPT/DOC yuklaydi, hamma yuklab olishi mumkin",
+  },
+  {
+    label: "Sertifikat",
+    before:
+      "Wordda terib, ism qo'yib, har biriga alohida tayyorlanadi",
+    after:
+      "Konferensiya tugaydi → bir bosishda PDF + QR kod, online tekshirish",
   },
 ]
 
 const pillars = [
   {
     title: 'Vaqtni tejaydi',
-    description: "Tashkilotchi har bir tadbirda o'rtacha bir necha kun ish vaqtini tejaydi.",
+    description:
+      "Avtomatlashtirilgan oqim — chipta, materiallar va sertifikat o'zi yetkaziladi.",
     icon: () =>
       h(IconBase, { size: 22 }, () => [
         h('circle', { cx: '12', cy: '12', r: '10' }),
@@ -38,8 +54,9 @@ const pillars = [
       ]),
   },
   {
-    title: 'Xatoliklar yo\'qoladi',
-    description: "Avtomatik forma va validatsiya — qo'l bilan kiritish xatolari yo'qoladi.",
+    title: 'Xatolik yo\'qoladi',
+    description:
+      "Validatsiya va statuslar tizimi — eski yoki bekor qilingan tadbirga yozilib bo'lmaydi, dublikat yo'q.",
     icon: () =>
       h(IconBase, { size: 22 }, () => [
         h('path', { d: 'M22 11.08V12a10 10 0 1 1-5.93-9.14' }),
@@ -49,7 +66,7 @@ const pillars = [
   {
     title: 'Aloqa shaffof',
     description:
-      "Barcha xabar, savol va yangiliklar bir joyda — ham tashkilotchi, ham qatnashchi uchun.",
+      "Real vaqtda savol, javob, status o'zgarishi va xabar — sahifani yangilamasdan ham hammasi yetadi.",
     icon: () =>
       h(IconBase, { size: 22 }, () => [
         h('path', {
@@ -63,9 +80,9 @@ const pillars = [
 <template>
   <BaseSection id="benefits">
     <SectionHeading
-      eyebrow="Nima foyda keltiradi"
-      title="Eski usul va EventLab — taqqoslab ko'ring"
-      description="Bir necha bosqichda hal bo'ladigan ishlar uchun bir necha kun emas, bir necha daqiqa sarflang."
+      eyebrow="Nima foyda"
+      title="Eski usul va EventLab — yonma-yon ko'ring"
+      description="Har bir bosqichda nima o'zgaradi: qog'oz va Excel'dan avtomatik oqimga."
     />
 
     <div class="compare">

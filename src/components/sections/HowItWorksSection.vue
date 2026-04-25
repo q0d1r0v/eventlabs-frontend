@@ -9,25 +9,31 @@ const steps = [
     step: '01',
     title: 'Konferensiya yarating',
     description:
-      "5 daqiqada nom, sana, joy va banner kiriting — sahifa avtomatik tayyor.",
+      "Banner rasm, sana, joy va kategoriyani kiriting. Holat avtomatik DRAFT — istalgan paytda PUBLISHED qilasiz.",
   },
   {
     step: '02',
-    title: 'Dastur tuzing',
+    title: "Sessiya va ma'ruzachilar",
     description:
-      "Sessiyalarni qo'shing, ma'ruzachilarni biriktiring va vaqt jadvalini drag-and-drop bilan tartibga soling.",
+      "Har bir sessiyaga vaqt, xona yoki onlayn havola, va ma'ruzachi tayinlang. Ma'ruzachi avtomatik o'z sessiyasiga material yuklay oladi.",
   },
   {
     step: '03',
-    title: 'Qatnashchilarni chaqiring',
+    title: 'Qatnashchilar yoziladi',
     description:
-      'Havolani ulashing — har bir kishi bir bosish bilan yoziladi va QR-chiptasini oladi.',
+      "Foydalanuvchi bir bosishda yoziladi va PDF chipta tushadi: QR-kod, sessiya jadvali, joy va sana — hammasi ichida.",
   },
   {
     step: '04',
-    title: 'Jonli boshqaring',
+    title: 'Tadbir kuni — jonli',
     description:
-      "Kun davomida real vaqtda savollarga javob bering, yangiliklar yuboring, statistikani kuzating.",
+      "Real vaqtli savol-javob, taqdimot fayllari, sana yoki bekor qilish bildirishnomalari. Sahifani yangilamasdan ham hammasi yangilanadi.",
+  },
+  {
+    step: '05',
+    title: 'Sertifikat avtomatik',
+    description:
+      "Konferensiya tugashi bilan qatnashganlar PDF sertifikat oladi. Noyob kod va QR orqali har kim haqiqiyligini tekshira oladi.",
   },
 ]
 </script>
@@ -36,8 +42,8 @@ const steps = [
   <BaseSection id="how-it-works" tone="subtle" :bordered="false">
     <SectionHeading
       eyebrow="Jarayon"
-      title="To'rt qadamda kuchli konferensiya"
-      description="Murakkab sozlamalar yo'q. Hisobni ochishdan birinchi qatnashchigacha — bir necha daqiqa."
+      title="Besh qadamda boshidan oxirigacha"
+      description="Hisobni ochishdan ishtirokchining qo'liga sertifikat tushgunicha — bir nechta daqiqa va bir nechta klik."
     />
 
     <div class="how__layout">
@@ -49,18 +55,18 @@ const steps = [
 
       <BaseCard variant="featured" class="how__demo">
         <div class="how__demo-head">
-          <span class="how__demo-label">JONLI Q&amp;A</span>
+          <span class="how__demo-label">Jonli savol-javob</span>
           <span class="how__demo-pulse" aria-hidden="true" />
         </div>
         <div class="how__demo-q">
           <span class="how__demo-author">Qatnashchi</span>
           <p>Konferensiyaga onlayn qatnashish mumkinmi yoki faqat zalda?</p>
-          <span class="how__demo-up">▲ Yoqdi</span>
+          <span class="how__demo-up">▲ 12</span>
         </div>
         <div class="how__demo-q">
           <span class="how__demo-author">Qatnashchi</span>
           <p>Kechikkanlar uchun ma'ruza yozuvi keyinroq mavjud bo'ladimi?</p>
-          <span class="how__demo-up">▲ Yoqdi</span>
+          <span class="how__demo-up">▲ 8</span>
         </div>
         <div class="how__demo-q how__demo-q--answered">
           <span class="how__demo-author">Qatnashchi</span>

@@ -1,23 +1,38 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseContainer from '@/components/ui/BaseContainer.vue'
 import AppLogo from './AppLogo.vue'
 import IconBase from '@/components/ui/IconBase.vue'
+import UserMenu from './UserMenu.vue'
+import NotificationsBell from './NotificationsBell.vue'
+import { useAuthStore } from '@/stores/auth'
 import { useScrollLock } from '@/composables/useScrollLock'
 import { useSmoothScroll } from '@/composables/useSmoothScroll'
 
-const links = [
+const props = defineProps<{
+  variant?: 'landing' | 'app'
+}>()
+
+const auth = useAuthStore()
+const route = useRoute()
+const router = useRouter()
+const { scrollTo } = useSmoothScroll()
+
+const sectionLinks = [
   { label: 'Imkoniyatlar', href: '#features' },
   { label: 'Kim uchun', href: '#use-cases' },
   { label: 'Qanday ishlaydi', href: '#how-it-works' },
   { label: 'Foydasi', href: '#benefits' },
 ]
 
+const appLinks = [
+  { label: 'Konferensiyalar', to: '/conferences' },
+  { label: 'Boshqaruv paneli', to: '/dashboard', auth: true },
+]
+
 const open = ref(false)
-const route = useRoute()
-const { scrollTo } = useSmoothScroll()
 
 useScrollLock(open)
 
@@ -36,6 +51,18 @@ const handleSectionClick = (event: MouseEvent) => {
   scrollTo(event)
   open.value = false
 }
+
+const goLogin = () => {
+  open.value = false
+  router.push({ name: 'login' })
+}
+
+const goRegister = () => {
+  open.value = false
+  router.push({ name: 'register' })
+}
+
+const showSectionLinks = props.variant !== 'app' && route.name === 'home'
 </script>
 
 <template>
@@ -47,20 +74,41 @@ const handleSectionClick = (event: MouseEvent) => {
         </router-link>
 
         <nav class="nav__links" aria-label="Asosiy navigatsiya">
-          <a
-            v-for="link in links"
-            :key="link.href"
-            :href="link.href"
-            class="nav__link"
-            @click="scrollTo"
-          >
-            {{ link.label }}
-          </a>
+          <template v-if="showSectionLinks">
+            <a
+              v-for="link in sectionLinks"
+              :key="link.href"
+              :href="link.href"
+              class="nav__link"
+              @click="scrollTo"
+            >
+              {{ link.label }}
+            </a>
+          </template>
+          <template v-else>
+            <router-link
+              v-for="link in appLinks.filter((l) => !l.auth || auth.isAuthenticated)"
+              :key="link.to"
+              :to="link.to"
+              class="nav__link"
+              active-class="nav__link--active"
+            >
+              {{ link.label }}
+            </router-link>
+          </template>
         </nav>
 
         <div class="nav__cta">
-          <BaseButton variant="ghost" size="sm">Kirish</BaseButton>
-          <BaseButton variant="primary" size="sm">Boshlash</BaseButton>
+          <template v-if="auth.isAuthenticated">
+            <NotificationsBell />
+            <UserMenu />
+          </template>
+          <template v-else>
+            <BaseButton variant="ghost" size="sm" @click="goLogin">Kirish</BaseButton>
+            <BaseButton variant="primary" size="sm" @click="goRegister">
+              Boshlash
+            </BaseButton>
+          </template>
         </div>
 
         <button
@@ -93,19 +141,45 @@ const handleSectionClick = (event: MouseEvent) => {
     >
       <BaseContainer>
         <nav class="nav__mobile-links" aria-label="Mobil navigatsiya">
-          <a
-            v-for="link in links"
-            :key="link.href"
-            :href="link.href"
-            class="nav__mobile-link"
-            @click="handleSectionClick"
-          >
-            {{ link.label }}
-          </a>
+          <template v-if="showSectionLinks">
+            <a
+              v-for="link in sectionLinks"
+              :key="link.href"
+              :href="link.href"
+              class="nav__mobile-link"
+              @click="handleSectionClick"
+            >
+              {{ link.label }}
+            </a>
+          </template>
+          <template v-else>
+            <router-link
+              v-for="link in appLinks.filter((l) => !l.auth || auth.isAuthenticated)"
+              :key="link.to"
+              :to="link.to"
+              class="nav__mobile-link"
+            >
+              {{ link.label }}
+            </router-link>
+          </template>
         </nav>
         <div class="nav__mobile-cta">
-          <BaseButton variant="secondary" size="md" full-width>Kirish</BaseButton>
-          <BaseButton variant="primary" size="md" full-width>Boshlash</BaseButton>
+          <template v-if="!auth.isAuthenticated">
+            <BaseButton variant="secondary" size="md" full-width @click="goLogin">
+              Kirish
+            </BaseButton>
+            <BaseButton variant="primary" size="md" full-width @click="goRegister">
+              Boshlash
+            </BaseButton>
+          </template>
+          <template v-else>
+            <BaseButton variant="secondary" size="md" full-width to="/dashboard">
+              Boshqaruv paneli
+            </BaseButton>
+            <BaseButton variant="ghost" size="md" full-width @click="auth.logout()">
+              Chiqish
+            </BaseButton>
+          </template>
         </div>
       </BaseContainer>
     </div>
@@ -128,7 +202,15 @@ const handleSectionClick = (event: MouseEvent) => {
   align-items: center;
   justify-content: space-between;
   height: 64px;
-  gap: 24px;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 480px) {
+  .nav__bar {
+    height: 56px;
+    gap: 8px;
+  }
 }
 
 .nav__logo {
@@ -148,9 +230,14 @@ const handleSectionClick = (event: MouseEvent) => {
   font-weight: 500;
   color: var(--color-text);
   transition: color 0.2s var(--ease-out-soft);
+  position: relative;
 }
 
 .nav__link:hover {
+  color: var(--color-brand-deep);
+}
+
+.nav__link--active {
   color: var(--color-brand-deep);
 }
 

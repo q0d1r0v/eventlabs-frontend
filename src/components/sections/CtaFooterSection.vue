@@ -1,15 +1,44 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import BaseContainer from '@/components/ui/BaseContainer.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import IconBase from '@/components/ui/IconBase.vue'
+import { useAuthStore } from '@/stores/auth'
+
+const auth = useAuthStore()
+const router = useRouter()
 
 const email = ref('')
 
+const ctaTitle = computed(() =>
+  auth.isAuthenticated
+    ? 'Konferensiyangizni boshqaring'
+    : 'Konferensiyangizni xotirada qoldiring',
+)
+
+const ctaDesc = computed(() =>
+  auth.isAuthenticated
+    ? "Boshqaruv panelida sizning konferensiyalaringiz, sertifikatlar va bildirishnomalaringiz bir joyda."
+    : "Bir necha daqiqada ro'yxatdan o'ting va birinchi tadbiringizni bepul tashkil qiling.",
+)
+
 const onSubmit = (e: Event) => {
   e.preventDefault()
-  if (!email.value) return
+  if (auth.isAuthenticated) {
+    router.push({ name: 'dashboard' })
+    return
+  }
+  // Email to'ldirilgan bo'lsa register'ga query bilan olib boramiz
+  router.push({
+    name: 'register',
+    query: email.value ? { email: email.value } : undefined,
+  })
   email.value = ''
+}
+
+const onLogin = () => {
+  router.push({ name: 'login' })
 }
 </script>
 
@@ -19,28 +48,23 @@ const onSubmit = (e: Event) => {
       <div class="cta__inner">
         <span class="cta__eyebrow">
           <span class="cta__pulse" aria-hidden="true" />
-          Bugun boshlash uchun bepul
+          {{ auth.isAuthenticated ? 'Boshqaruv paneliga kiring' : "Bugun bepul boshlash" }}
         </span>
 
-        <h2 class="cta__title">
-          Konferensiyangizni xotirada qoldiring
-        </h2>
-        <p class="cta__desc">
-          Bir necha daqiqada ro'yxatdan o'ting va birinchi tadbiringizni
-          bepul tashkil qiling. Karta talab qilinmaydi.
-        </p>
+        <h2 class="cta__title">{{ ctaTitle }}</h2>
+        <p class="cta__desc">{{ ctaDesc }}</p>
 
         <form class="cta__form" @submit="onSubmit">
           <input
+            v-if="!auth.isAuthenticated"
             v-model="email"
             type="email"
             class="cta__input"
-            placeholder="email@example.uz"
+            placeholder="Email manzilingizni kiriting"
             aria-label="Email manzilingiz"
-            required
           />
           <BaseButton variant="accent" size="lg" type="submit">
-            Bepul kirish
+            {{ auth.isAuthenticated ? 'Boshqaruv paneliga' : "Ro'yxatdan o'tish" }}
             <template #trailing>
               <IconBase :size="16">
                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -50,9 +74,11 @@ const onSubmit = (e: Event) => {
           </BaseButton>
         </form>
 
-        <p class="cta__fine">
+        <p v-if="!auth.isAuthenticated" class="cta__fine">
           Allaqachon hisobingiz bormi?
-          <button type="button" class="cta__link">Kirish</button>
+          <button type="button" class="cta__link" @click="onLogin">
+            Kirish
+          </button>
         </p>
       </div>
     </BaseContainer>
